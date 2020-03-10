@@ -126,9 +126,11 @@ class Schedule
             $job = is_string($job) ? resolve($job) : $job;
 
             if ($job instanceof ShouldQueue) {
-                $this->getDispatcher()->dispatch($job)
-                    ->onConnection($connection ?? $job->connection)
-                    ->onQueue($queue ?? $job->queue);
+                $pending = $this->getDispatcher()->dispatch($job);
+                if ($pending !== null) {
+                    $pending->onConnection($connection ?? $job->connection)
+                            ->onQueue($queue ?? $job->queue);
+                }
             } else {
                 $this->getDispatcher()->dispatchNow($job);
             }

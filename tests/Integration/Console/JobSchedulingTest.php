@@ -14,6 +14,7 @@ class JobSchedulingTest extends TestCase
     public function testJobQueuingRespectsJobQueue()
     {
         Queue::fake();
+        Container::setInstance($this->app);
 
         /** @var Schedule $scheduler */
         $scheduler = $this->app->make(Schedule::class);
@@ -42,6 +43,7 @@ class JobSchedulingTest extends TestCase
     public function testJobQueuingRespectsJobConnection()
     {
         Queue::fake();
+        Container::setInstance($this->app);
 
         /** @var Schedule $scheduler */
         $scheduler = $this->app->make(Schedule::class);
